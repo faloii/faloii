@@ -452,6 +452,7 @@ export type RaceRecordCreateOrConnectWithoutUserInput = {
 
 export type RaceRecordCreateManyUserInputEnvelope = {
   data: Prisma.RaceRecordCreateManyUserInput | Prisma.RaceRecordCreateManyUserInput[]
+  skipDuplicates?: boolean
 }
 
 export type RaceRecordUpsertWithWhereUniqueWithoutUserInput = {
@@ -1259,6 +1260,7 @@ export type RaceRecordCreateManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * The data used to create many RaceRecords.
    */
   data: Prisma.RaceRecordCreateManyInput | Prisma.RaceRecordCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1277,6 +1279,7 @@ export type RaceRecordCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    * The data used to create many RaceRecords.
    */
   data: Prisma.RaceRecordCreateManyInput | Prisma.RaceRecordCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

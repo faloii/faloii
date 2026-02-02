@@ -19,8 +19,8 @@ const config: runtime.GetPrismaClientConfig = {
   "previewFeatures": [],
   "clientVersion": "7.3.0",
   "engineVersion": "9d6ad21cbbceab97458517b147a6a09ff43aa735",
-  "activeProvider": "sqlite",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n}\n\nmodel User {\n  id          String       @id @default(cuid())\n  email       String       @unique\n  name        String\n  password    String\n  bio         String?\n  createdAt   DateTime     @default(now())\n  updatedAt   DateTime     @updatedAt\n  posts       Post[]\n  raceRecords RaceRecord[]\n  comments    Comment[]\n}\n\nmodel Post {\n  id        String    @id @default(cuid())\n  title     String\n  content   String\n  category  String    @default(\"general\")\n  createdAt DateTime  @default(now())\n  updatedAt DateTime  @updatedAt\n  authorId  String\n  author    User      @relation(fields: [authorId], references: [id])\n  comments  Comment[]\n}\n\nmodel Comment {\n  id        String   @id @default(cuid())\n  content   String\n  createdAt DateTime @default(now())\n  authorId  String\n  postId    String\n  author    User     @relation(fields: [authorId], references: [id])\n  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)\n}\n\nmodel RaceRecord {\n  id         String   @id @default(cuid())\n  raceName   String\n  raceDate   DateTime\n  distance   String\n  finishTime String\n  memo       String?\n  createdAt  DateTime @default(now())\n  userId     String\n  user       User     @relation(fields: [userId], references: [id])\n}\n",
+  "activeProvider": "postgresql",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id          String       @id @default(cuid())\n  email       String       @unique\n  name        String\n  password    String\n  bio         String?\n  createdAt   DateTime     @default(now())\n  updatedAt   DateTime     @updatedAt\n  posts       Post[]\n  raceRecords RaceRecord[]\n  comments    Comment[]\n}\n\nmodel Post {\n  id        String    @id @default(cuid())\n  title     String\n  content   String\n  category  String    @default(\"general\")\n  createdAt DateTime  @default(now())\n  updatedAt DateTime  @updatedAt\n  authorId  String\n  author    User      @relation(fields: [authorId], references: [id])\n  comments  Comment[]\n}\n\nmodel Comment {\n  id        String   @id @default(cuid())\n  content   String\n  createdAt DateTime @default(now())\n  authorId  String\n  postId    String\n  author    User     @relation(fields: [authorId], references: [id])\n  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)\n}\n\nmodel RaceRecord {\n  id         String   @id @default(cuid())\n  raceName   String\n  raceDate   DateTime\n  distance   String\n  finishTime String\n  memo       String?\n  createdAt  DateTime @default(now())\n  userId     String\n  user       User     @relation(fields: [userId], references: [id])\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -37,10 +37,10 @@ async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Modul
 }
 
 config.compilerWasm = {
-  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_fast_bg.sqlite.mjs"),
+  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.mjs"),
 
   getQueryCompilerWasmModule: async () => {
-    const { wasm } = await import("@prisma/client/runtime/query_compiler_fast_bg.sqlite.wasm-base64.mjs")
+    const { wasm } = await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.wasm-base64.mjs")
     return await decodeBase64AsWasm(wasm)
   },
 
